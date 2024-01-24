@@ -1,0 +1,213 @@
+definitions:
+  request.LoginRequest:
+    properties:
+      email:
+        maxLength: 50
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  request.RegisterRequest:
+    properties:
+      email:
+        maxLength: 50
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  responses.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      errors: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      parameters:
+      - description: User Login
+        in: body
+        name: '*'
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "400":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "401":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "500":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+      summary: '"User Login"'
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      parameters:
+      - default: Bearer
+        description: example:Bearer token (Bearer+space+token).
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully logged out
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "401":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+      summary: '"User Logout"'
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      parameters:
+      - default: Bearer
+        description: example:Bearer token (Bearer+space+token).
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Refresh token successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "401":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+      summary: '"User Refresh Token"'
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      parameters:
+      - description: User Register
+        in: body
+        name: '*'
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Register Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+        "400":
+          description: Failed to process request
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+              type: object
+      summary: '"User Register"'
+      tags:
+      - Auth
+swagger: "2.0"
